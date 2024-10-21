@@ -43,9 +43,12 @@ function loopGetACadFileUrlRequest(string $token, int $cadRequestId): string
         $apiReturn = getACadFileUrl($token, $cadRequestId);
 
         // code 204 means the cad file is generating, and you must wait until it is fully generated or an error occurs
-        if ($apiReturn->httpCode != 204) {
-            $finalResult = $apiReturn->toJsonString();
-        }
+       if ($apiReturn->httpCode == 204) {    
+           sleep($interval);} 
+       else {    
+           $finalResult = $apiReturn;    
+           break;
+       }
     }
 
     return $finalResult;
